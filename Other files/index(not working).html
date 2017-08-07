@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<head>
+	<title>Peeling the Onion </title>
+	<meta charset="utf-8">
+ 	
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-rc2/vega.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0-beta.10/vega-lite.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.19/vega-embed.js"></script>
+	
+	<style media="screen">
+	    /* Add space between Vega-Embed links  */
+	    .vega-actions a {
+	      margin-right: 5px;
+	    }
+  	</style>
+
+</head>
+
+<body bgcolor="#ffddfe">
+	<h1>Peeling the Onion</h1>
+<h2> Prices over the decade for all markets</h2>
+<ol><li>2007 price of Mandsour (MP) has a good chance of being an error</li>
+<li>Dindigul(TN) is not following the prices of rest of the country</li>
+<li></li></ol>
+  <div id="onion_2"></div>
+  <script>
+  // Assign the specification to a local variable vlSpec.
+  var v2Spec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+      "background":"#ffffff",
+      "padding": 20,
+      "autoResize": true,
+      "data": {"url":"onion.csv"},
+      
+      "vconcat":[{
+      // "transform":[{"filter": "datum.lon == 74.1993043 "}],
+      "width":900,
+      "height":250,
+       // "facet":{"row":{"field":"market", "type":"nominal"}},
+      // "spec":{
+      "mark": "line",
+      "selection":{
+          "mouHov": {
+            "type":"multi", 
+            "on": "mouseover"
+          } 
+        },
+
+      "encoding": {
+
+        
+        // "row":{"field":"market", "type":"nominal"},
+        // "row": {"field":"year", "type":"nominal"},
+
+          "y": {"field":"priceMax", "type":"quantitative", "axis":{"tickCount": 6, "title": null,"tickSize": 3}, },
+        // "x": {"field":"month", "type":"nominal", "axis": {"title": "Month"}}
+         "x": {"field":"date", "type":"temporal",  
+               "axis":{"tickCount": 18, "title": null,"tickSize": 3, "format":"%b %Y"},
+               "scale":{"domain":{"selection" :"brush"} 
+                }
+              },
+         // "color":{"field":"state", "type": "nominal"},
+
+         "color":{
+          "value":"grey", 
+          "condition":{
+            "selection":"mouHov",
+            "field":"market", 
+            "type": "nominal", "legend":null}
+          },
+         
+         "tooltip": {"field": "market", "type": "nominal"}
+         // "order": {"field": "year","type": "temporal"}
+      
+
+      },
+      
+      "config":{
+        "mark":{
+          "strokeWidth":3
+        }
+      },  
+    },
+      {
+      // "transform":[{"filter": "datum.lon == 74.1993043 "}],
+      "width":900,
+      "height":100,
+       // "facet":{"row":{"field":"market", "type":"nominal"}},
+      // "spec":{
+      "mark": "line",
+      "selection":{"mouHov": {
+                   "type":"multi", 
+                   "on": "mouseover"
+                    },
+                   "brush":{"type":"interval", "encodings":["x"]} 
+                  },
+
+      "encoding": {
+
+        
+        // "row":{"field":"market", "type":"nominal"},
+        // "row": {"field":"year", "type":"nominal"},
+
+          "y": {"field":"priceMax", "type":"quantitative", "axis":{"tickCount": 6, "title": null,"tickSize": 3}, },
+        // "x": {"field":"month", "type":"nominal", "axis": {"title": "Month"}}
+         "x": {"field":"date", "type":"temporal",  "axis":{"tickCount": 18, "title": null,"tickSize": 3, "format":"%b %Y"}},
+         // "color":{"field":"state", "type": "nominal"},
+
+         "color":{
+          "value":"grey", 
+          "condition":{
+            "selection":"mouHov",
+            "field":"market", 
+            "type": "nominal", "legend":null}
+          },
+         
+         "tooltip": {"field": "market", "type": "nominal"}
+         // "order": {"field": "year","type": "temporal"}
+      
+
+      }}]
+      // }
+  };
+
+  // Embed the visualization in the container with id `vis`
+  vega.embed("#onion_2", v2Spec, {actions: false});
+  </script>
+
+
+  <h2>Price fluctuation over each year for all markets</h2>
+	<div id="onion_1"></div>
+	
+  <script>
+    // Assign the specification to a local variable vlSpec.
+      var vlSpec = {
+      
+      "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+      "data": {"url":"onion.csv"},
+      // "transform":[{"filter": "datum.lon == 74.1993043 "}],
+        "width":180,
+        "height":100,
+         // "facet":{"row":{"field":"market", "type":"nominal"}},
+        // "spec":{
+        "mark": "line",
+
+        "encoding": {
+        	"row":{"field":"market", "type":"nominal"},
+          // "column":{"field":"state","type":"nominal"},
+        	// "row": {"field":"year", "type":"nominal"},
+          	"y": {"field":"priceMax", "type":"quantitative", "axis":{"tickCount": 6, "title": null,"tickSize": 3, "grid": true, "offset":-11}, },
+          // "x": {"field":"month", "type":"nominal", "axis": {"title": "Month"}}
+         	 "x": {"field":"date", "type":"temporal", "timeUnit":"month", "axis": {"format":"%b", "grid": true, "offset": 0} },
+         	 "color":{"field":"year", "type": "nominal"},
+           "tooltip": {"field": "year", "type": "nominal"}
+         	 // "order": {"field": "year","type": "temporal"}
+        }    
+      
+          // }
+    };
+
+    // Embed the visualization in the container with id `vis`
+    vega.embed("#onion_1", vlSpec, {actions: false});
+  </script>
+  

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+	<title> Siddhant's Onion </title>
+	<meta charset="utf-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-rc2/vega.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0-beta.10/vega-lite.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.19/vega-embed.js"></script>
+
+	<style media="screen">
+		.vega-actions a {
+      	margin-right: 5px;
+    	}
+    </style>
+</head>
+
+<body>
+	<h1><a href="index.html">Analysis of Onion Prices</a></h1>
+	<a name="top"></a>
+	<h2>Annual Trends</h2>
+	<a href="#obs"><i>go to observations</i></a>
+
+	<div id="g1"></div>
+		
+	
+	<script>
+		var spec1={
+			"$schema":"https://vega.github.io/schema/vega-lite/v2.json",
+			"data":{"url":"data/Annual Trends.csv"},
+			"width":300,
+			"height":150,
+
+			// "padding"{
+			// 	"left":0,
+			// 	"top":10,
+			// 	"right":0,
+			// 	"bottom":10			
+			// },
+			"mark": "line",
+			
+			"encoding":{
+				"row":{
+					"field":"year",
+					"type": "nominal"
+				},
+
+				"x":{
+					"field": "date",
+					"type": "temporal",
+					"timeUnit":"month",
+					// "scale":{
+					// 	"domain":
+					// },
+					"axis": {
+						"title":null,
+						"grid":1, "offset":-11
+					},
+
+					
+				},
+				"y": {
+					"field": "value",
+					"type": "quantitative",
+					"axis":{
+						"tickCount":5,
+						"offset":-11,
+						"title":"₹",
+						"grid":1
+					}
+					
+				},
+			
+				"color" :{
+					"field":"Average prices across India",
+					"type": "nominal",
+					
+				}
+			}
+
+		};
+		vega.embed("#g1", spec1, {"actions":false});
+			
+	</script>
+	<a name="obs"> Observations:</a><br>
+	<a href="#top"><i>back to top</i></a>
+	<ol>Times of dramatic rise in prices:
+	<li>Prices rose in 1997 end and began falling in  1998. In 1998 prices rose steeply until October, peaking at ₹3,000</li>
+	<li>In 2005, prices rose upto three fold, peaking in october at around ₹1,300</li>
+	<li>In 2007, there was a minor peak in prices in February. Prices again peaked majorly in October.</li>
+	<li>In 2008, prices increased steadily in the latter half of the year. They peaked in January 2009 and fell until May.<br>
+	May onwards, prices rose steadily till September, when the rise caught pace and stabilised at a higher point for the next two months </li>
+	<li>The year 2010 saw an exponential rise May onwards. The prices rose till January 2011 and fell steeply until March.</li>
+	<li>2013 saw dramatic rise in prices, peaking in September-October at around ₹4,800</li>
+	<li> In 2014, prices peaked in July at around ₹2,400</li>
+	<li> 2015 again saw a dramatic rise in prices which peaked in September at around ₹4,600</li>
+	</ol>
+	Back to: <a href="index.html"> Price trend over the years </a> or, <a href="state wise.html"> How prices fared across states </a>
+
+
+
+

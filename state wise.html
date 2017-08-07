@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<head>
+	<title> Siddhant's Onion </title>
+	<meta charset="utf-8">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.0-rc2/vega.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.0-beta.10/vega-lite.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-beta.19/vega-embed.js"></script>
+
+	<style media="screen">
+		.vega-actions a {
+      	margin-right: 5px;
+    	}
+    </style>
+</head>
+
+<body>
+	<h1><a href="index.html">Analysis of Onion Prices</a></h1>
+	<h2>How prices fared across states</h2>
+	<div id="g1">
+		<h2>Prices over the decade</h2>
+	</div>
+	<script>
+		var spec1={
+			"$schema":"https://vega.github.io/schema/vega-lite/v2.json",
+			"data":{"url":"data/onion_state wise avg prices.csv"},
+			"selection":{
+				"grid":{
+					"type":"interval",
+					"bind":"scales",
+					"on":"[mousedown, window:mouseup] > window:mousemove!",
+					"encodings":[
+					"x",
+					"y"
+					],
+					"translate":"[mousedown , window:mouseup] > window: mousemove!",
+					"zoom": "wheel!",
+					"resolve":"global"
+				},
+
+				"Select": {
+					"type": "single",
+					"fields": ["state"],
+					"bind": {
+						"input":"select",
+						"options":[	
+						// "Andhra Pradesh", "Assam", "Bihar", "Delhi","Gujarat",
+						// "Himachal Pradesh", "Haryana", "Jharkhand", "J&K", "Kerala", "Karnataka",
+						// "Maharashtra", "Madhya Pradesh", "Orissa", "Punjab", "Rajasthan",
+						// "Tamil Nadu", "West Bengal"
+						"","AP","ASM", "BHR", "DEL", "GUJ", "HP", "HR",
+						"JH","JK","KER","KNT","MH","MP","OR","PB", "RAJ",
+						"TN", "WB"
+						]
+						
+					},
+					"on":"click",
+					"resolve":"global"
+				}
+
+			},
+			"width":700,
+			"height":250,
+			"padding":{
+				"left": 5, 
+				"top": 5, 
+				"right": 5,
+				"bottom":50
+			},
+			"mark": "line",
+			"encoding":{
+				"x":{
+					"field": "date",
+					"type": "temporal",
+					
+					"axis": {
+						"tickCount": 18, "format": "%b %Y", "title":null
+					},					
+				},
+				"y": {
+					"field": "Modal price (Average)",
+					"type": "quantitative",
+					"axis":{
+						"title":"₹"
+					},
+					
+				},
+				"opacity":{
+					"condition": {
+						"selection":"Select",
+						"field":"state",
+						"type":"nominal"
+					},
+					"legend":null,
+					"value":0.03
+					
+				}
+			}
+				
+		};
+		vega.embed("#g1", spec1, {"actions":false});
+			
+	</script>
+	Observations:
+	<ol>
+	<li>There are gaps in price data for Jharkhand, Kerala and Himachal Pradesh</li>
+	<li>Kerala and Assam have been the states where modal prices have been the highest for onions</li>
+	<li>Rajasthan, Gujarat, Andhara Pradesh, Karnataka, Madhya Pradesh and Maharashtra have had lowest modal price</li>
+	</ol>
+	Next:<a href="annual trends.html"> Annual trend analysis </a><br>
+	Back: <a href="index.html">Prices across India</a> 
+	
+
+
+
+
